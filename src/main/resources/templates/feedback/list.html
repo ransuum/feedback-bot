@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .table th {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .card {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .pagination .page-link {
+            color: #0d6efd;
+        }
+
+        .pagination .active .page-link {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container my-5">
+    <h1 class="mb-4 text-primary">📋 Feedback List</h1>
+
+    <!-- Filter Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form class="row g-3 align-items-end" th:action="@{/feedbacks}" method="get">
+
+                <div class="col-md-3">
+                    <label for="branch" class="form-label">Філія</label>
+                    <input id="branch" type="text" class="form-control" name="branch" th:value="${criteria.branch()}">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="position" class="form-label">Посада</label>
+                    <select id="position" class="form-select" name="position">
+                        <option value="">Всі посади</option>
+                        <option th:each="p : ${positions}"
+                                th:value="${p}"
+                                th:text="${p.displayName}"
+                                th:selected="${criteria.position == p}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="sentiment" class="form-label">Настрій</label>
+                    <select id="sentiment" class="form-select" name="sentiment">
+                        <option value="">Всі настрої</option>
+                        <option th:each="s : ${sentiments}"
+                                th:value="${s}"
+                                th:text="${s.displayName}"
+                                th:selected="${criteria.sentiment == s}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="criticality" class="form-label">Рівень критичності</label>
+                    <select id="criticality" class="form-select" name="criticalityLevel">
+                        <option value="">Всі рівні</option>
+                        <option th:each="c : ${criticalityLevels}"
+                                th:value="${c.value}"
+                                th:text="${c.displayName}"
+                                th:selected="${criteria.criticalityLevel == c.value}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="category" class="form-label">Категорія</label>
+                    <input id="category" type="text" class="form-control" name="category"
+                           th:value="${criteria.branch()}">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="from" class="form-label">Дата від</label>
+                    <input id="from" type="datetime-local" class="form-control" name="from"
+                           th:value="${criteria.start != null} ? ${#temporals.format(criteria.start, 'yyyy-MM-dd''T''HH:mm')} : ''">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="to" class="form-label">Дата до</label>
+                    <input id="to" type="datetime-local" class="form-control" name="to"
+                           th:value="${criteria.end != null} ? ${#temporals.format(criteria.end, 'yyyy-MM-dd''T''HH:mm')} : ''">
+                </div>
+
+                <!-- Buttons in same row -->
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" type="submit">🔍 Фільтри</button>
+                </div>
+                <div class="col-md-2">
+                    <a th:href="@{/feedbacks}" class="btn btn-secondary w-100">♻ Скинути</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Результати аналізу відгуків</h5>
+        </div>
+        <div class="card-body">
+            <div th:if="${page.hasContent()}">
+                <p class="text-muted mb-3">
+                    Показано <span th:text="${page.numberOfElements}"></span> з
+                    <span th:text="${page.totalElements}"></span> відгуків
+                </p>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Категорія</th>
+                            <th>Настрій</th>
+                            <th>Критичність</th>
+                            <th>Рішення</th>
+                            <th>Впевненість</th>
+                            <th>Дії</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="feedback : ${feedbacks}">
+                            <td th:text="${feedback.category ?: 'N/A'}"></td>
+                            <td>
+                                    <span class="badge"
+                                          th:classappend="${feedback.sentiment?.name() == 'POSITIVE'} ? 'bg-success' :
+                                                         (${feedback.sentiment?.name() == 'NEGATIVE'} ? 'bg-danger' : 'bg-secondary')"
+                                          th:text="${feedback.sentiment?.displayName ?: 'N/A'}">
+                                    </span>
+                            </td>
+                            <td>
+                                    <span class="badge"
+                                          th:classappend="${feedback.criticalityLevel?.value >= 4} ? 'bg-danger' :
+                                                         (${feedback.criticalityLevel?.value >= 3} ? 'bg-warning' : 'bg-success')"
+                                          th:text="${feedback.criticalityLevel?.displayName ?: 'N/A'}">
+                                    </span>
+                            </td>
+                            <td>
+                                    <span th:text="${feedback.solution ?: 'N/A'}"
+                                          class="text-truncate d-inline-block"
+                                          style="max-width: 200px;"
+                                          th:title="${feedback.solution}"></span>
+                            </td>
+                            <td>
+                                <span class="badge bg-info"
+                                      th:text="${#numbers.formatPercent(feedback.confidence, 1, 0)}"></span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-info" onclick="showDetails(this)"
+                                        th:data-message="${feedback.message}"
+                                        th:data-branch="${feedback.branch}"
+                                        th:data-category="${feedback.category}"
+                                        th:data-solution="${feedback.solution}"
+                                        th:data-confidence="${feedback.confidence}"
+                                        th:data-sentiment-display="${feedback.sentiment?.displayName}"
+                                        th:data-sentiment-class="${feedback.sentiment?.name() == 'POSITIVE' ? 'bg-success' : (feedback.sentiment?.name() == 'NEGATIVE' ? 'bg-danger' : 'bg-secondary')}"
+                                        th:data-criticality-display="${feedback.criticalityLevel?.displayName}"
+                                        th:data-criticality-class="${feedback.criticalityLevel?.value >= 4 ? 'bg-danger' : (feedback.criticalityLevel?.value >= 3 ? 'bg-warning' : 'bg-success')}">
+                                    Деталі
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <nav th:if="${page.totalPages > 1}" aria-label="Навігація по сторінках">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="${page.first} ? '#' : '/feedbacks?page=' + (${page.number - 1}) + '&branch=' + ${criteria.branch} + '&position=' + ${criteria.position} + '&sentiment=' + ${criteria.sentiment} + '&criticalityLevel=' + ${criteria.criticalityLevel} + '&from=' + ${criteria.start} + '&to=' + ${criteria.end}">
+                                Попередня
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:if="${page.number > 2}">
+                            <a class="page-link"
+                               th:href="@{/feedbacks(page=0, branch=${criteria.branch}, position=${criteria.position}, sentiment=${criteria.sentiment}, criticalityLevel=${criteria.criticalityLevel}, from=${criteria.start}, to=${criteria.end})}">
+                                1
+                            </a>
+                        </li>
+
+                        <li class="page-item disabled" th:if="${page.number > 3}">
+                            <span class="page-link">...</span>
+                        </li>
+
+                        <th:block th:each="i : ${#numbers.sequence(
+                        T(java.lang.Math).max(0, page.number - 2),
+                        T(java.lang.Math).min(page.totalPages - 1, page.number + 2)
+                        )}">
+                            <li class="page-item" th:classappend="${i == page.number} ? 'active'">
+                                <a class="page-link"
+                                   th:href="@{/feedbacks(page=${i}, branch=${criteria.branch}, position=${criteria.position}, sentiment=${criteria.sentiment}, criticalityLevel=${criteria.criticalityLevel}, from=${criteria.start}, to=${criteria.end})}"
+                                   th:text="${i + 1}">
+                                </a>
+                            </li>
+                        </th:block>
+
+                        <li class="page-item disabled" th:if="${page.number < page.totalPages - 4}">
+                            <span class="page-link">...</span>
+                        </li>
+
+                        <li class="page-item" th:if="${page.number < page.totalPages - 3}">
+                            <a class="page-link"
+                               th:href="@{/feedbacks(page=${page.totalPages - 1}, branch=${criteria.branch}, position=${criteria.position}, sentiment=${criteria.sentiment}, criticalityLevel=${criteria.criticalityLevel}, from=${criteria.start}, to=${criteria.end})}"
+                               th:text="${page.totalPages}">
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="${page.last} ? '#' : ${'/feedbacks?page=' + (page.number + 1) + '&branch=' + criteria.branch + '&position=' + criteria.position + '&sentiment=' + criteria.sentiment + '&criticalityLevel=' + criteria.criticalityLevel + '&from=' + criteria.start + '&to=' + criteria.end}">
+                                Наступна
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Page info -->
+                <div class="text-center mt-3">
+                    <small class="text-muted">
+                        Сторінка <span th:text="${page.number + 1}"></span> з <span th:text="${page.totalPages}"></span>
+                        (всього <span th:text="${page.totalElements}"></span> записів)
+                    </small>
+                </div>
+            </div>
+
+            <div th:unless="${page.hasContent()}" class="text-center py-5">
+                <div class="mb-3">
+                    <i class="bi bi-search" style="font-size: 3rem; color: #6c757d;"></i>
+                </div>
+                <h5 class="text-muted">Відгуки за вашими критеріями не знайдено</h5>
+                <p class="text-muted">Спробуйте змінити фільтри або <a th:href="@{/feedbacks}"
+                                                                       class="text-decoration-none">скинути всі
+                    фільтри</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW, ENHANCED MODAL -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel">Деталі відгуку</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-12 mb-4">
+                            <label for="modalMessage" class="form-label fw-bold">Оригінальний відгук:</label>
+                            <div id="modalMessage" class="border p-3 bg-light rounded"
+                                 style="min-height: 100px; white-space: pre-wrap; word-wrap: break-word;"></div>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <div class="col-md-6 mb-3">
+                            <label for="modalBranch" class="form-label fw-bold">Філія:</label>
+                            <p id="modalBranch" class="form-control-plaintext ps-2"></p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="modalCategory" class="form-label fw-bold">Категорія:</label>
+                            <p id="modalCategory" class="form-control-plaintext ps-2"></p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="modalSentiment" class="form-label fw-bold">Настрій:</label>
+                            <div id="modalSentiment"></div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="modalCriticality" class="form-label fw-bold">Рівень критичності:</label>
+                            <div id="modalCriticality"></div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="modalConfidence" class="form-label fw-bold">Впевненість аналізу:</label>
+                            <div id="modalConfidence"></div>
+                        </div>
+
+                        <div class="col-12 mt-3">
+                            <label for="modalSolution" class="form-label fw-bold">Рекомендоване рішення:</label>
+                            <div id="modalSolution" class="border p-3 bg-light rounded"
+                                 style="min-height: 100px; white-space: pre-wrap; word-wrap: break-word;"></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function showDetails(button) {
+        const message = button.getAttribute('data-message');
+        const branch = button.getAttribute('data-branch');
+        const category = button.getAttribute('data-category');
+        const solution = button.getAttribute('data-solution');
+        const confidence = button.getAttribute('data-confidence');
+        const sentimentDisplay = button.getAttribute('data-sentiment-display');
+        const sentimentClass = button.getAttribute('data-sentiment-class');
+        const criticalityDisplay = button.getAttribute('data-criticality-display');
+        const criticalityClass = button.getAttribute('data-criticality-class');
+
+        document.getElementById('modalMessage').textContent = message || 'Повідомлення відсутнє';
+        document.getElementById('modalBranch').textContent = branch || 'Не визначено';
+        document.getElementById('modalCategory').textContent = category || 'Не визначено';
+        document.getElementById('modalSolution').textContent = solution || 'Рішення не надано';
+
+        document.getElementById('modalSentiment').innerHTML = sentimentDisplay ?
+            `<span class="badge ${sentimentClass}">${sentimentDisplay}</span>` :
+            '<span class="badge bg-secondary">Не визначено</span>';
+
+        document.getElementById('modalCriticality').innerHTML = criticalityDisplay ?
+            `<span class="badge ${criticalityClass}">${criticalityDisplay}</span>` :
+            '<span class="badge bg-secondary">Не визначено</span>';
+
+        document.getElementById('modalConfidence').innerHTML = confidence ?
+            `<span class="badge bg-info">${(parseFloat(confidence) * 100).toFixed(1)}%</span>` :
+            '<span class="badge bg-secondary">Не визначено</span>';
+
+        new bootstrap.Modal(document.getElementById('detailsModal')).show();
+    }
+</script>
+</body>
+</html>
