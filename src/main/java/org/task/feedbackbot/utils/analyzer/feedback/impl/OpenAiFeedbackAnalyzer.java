@@ -1,6 +1,5 @@
-package org.task.feedbackbot.utils.analyzer.feedback;
+package org.task.feedbackbot.utils.analyzer.feedback.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.task.feedbackbot.exception.FeedbackJsonProcessingException;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
+import org.task.feedbackbot.utils.analyzer.feedback.data.FallbackAnalysisFactory;
 import org.task.feedbackbot.utils.parser.ResponseParser;
 import org.task.feedbackbot.utils.promptbuilder.PromptBuilder;
 
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class OpenAiFeedbackAnalyzer extends AbstractFeedbackAnalyzer {
+public class OpenAiFeedbackAnalyzer extends BaseFeedbackAnalyzer {
 
     private final OpenAiChatModel openAiChatModel;
     private final FallbackAnalysisFactory factory;

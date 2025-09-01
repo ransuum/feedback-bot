@@ -16,7 +16,7 @@ import org.task.feedbackbot.service.FeedBackService;
 import org.task.feedbackbot.service.GoogleDocsService;
 import org.task.feedbackbot.service.TrelloService;
 import org.task.feedbackbot.specification.request.FeedbackCriteriaRequest;
-import org.task.feedbackbot.utils.analyzer.feedback.FallbackAnalysisFactory;
+import org.task.feedbackbot.utils.analyzer.feedback.data.FallbackAnalysisFactory;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;

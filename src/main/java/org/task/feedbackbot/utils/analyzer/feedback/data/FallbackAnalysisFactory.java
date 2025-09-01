@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.analyzer.feedback;
+package org.task.feedbackbot.utils.analyzer.feedback.data;
 
 import org.springframework.stereotype.Component;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
@@ -17,13 +17,13 @@ public class FallbackAnalysisFactory {
         Optional<FeedbackPattern> pattern = FeedbackPattern.findBestMatch(feedbackText);
 
         if (pattern.isEmpty())
-            return FeedbackAnalysisBuilder.create()
+            return FeedbackAnalysisBuilder.builder()
                     .withSolution("Потребує додаткового аналізу")
                     .build();
 
         FeedbackPattern p = pattern.get();
 
-        return FeedbackAnalysisBuilder.create()
+        return FeedbackAnalysisBuilder.builder()
                 .withSentiment(determineSentiment(p.getCriticalityLevel()))
                 .withCriticality(p.getCriticalityLevel())
                 .withSolution(p.getDefaultSolution())

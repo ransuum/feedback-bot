@@ -1,19 +1,20 @@
-package org.task.feedbackbot.utils.analyzer.feedback;
+package org.task.feedbackbot.utils.analyzer.feedback.impl;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
+import org.task.feedbackbot.utils.analyzer.feedback.FeedbackAnalyzer;
 import org.task.feedbackbot.utils.parser.ResponseParser;
 import org.task.feedbackbot.utils.promptbuilder.PromptBuilder;
 
 @Slf4j
-public abstract class AbstractFeedbackAnalyzer implements FeedbackAnalyzer {
+public abstract class BaseFeedbackAnalyzer implements FeedbackAnalyzer {
 
     protected final ResponseParser responseParser;
     protected final PromptBuilder promptBuilder;
 
-    protected AbstractFeedbackAnalyzer(ResponseParser responseParser,
-                                       PromptBuilder promptBuilder) {
+    protected BaseFeedbackAnalyzer(ResponseParser responseParser,
+                                   PromptBuilder promptBuilder) {
         this.responseParser = responseParser;
         this.promptBuilder = promptBuilder;
     }

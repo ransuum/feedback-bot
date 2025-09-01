@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.analyzer.feedback;
+package org.task.feedbackbot.utils.analyzer.feedback.data;
 
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
 import org.task.feedbackbot.models.enums.CriticalityLevel;
@@ -13,7 +13,7 @@ public class FeedbackAnalysisBuilder {
     private String category = FeedbackCategory.OTHER.getCode();
     private double confidence = 0.5;
 
-    public static FeedbackAnalysisBuilder create() {
+    public static FeedbackAnalysisBuilder builder() {
         return new FeedbackAnalysisBuilder();
     }
 
