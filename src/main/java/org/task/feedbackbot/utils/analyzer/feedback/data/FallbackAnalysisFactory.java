@@ -6,30 +6,23 @@ import org.task.feedbackbot.models.enums.CriticalityLevel;
 import org.task.feedbackbot.models.enums.FeedbackPattern;
 import org.task.feedbackbot.models.enums.SentimentType;
 
-import java.util.Optional;
-
 import static org.task.feedbackbot.models.enums.FeedbackPattern.calculateConfidence;
 
 @Component
 public class FallbackAnalysisFactory {
 
     public FeedbackAnalysisDto createAnalysis(String feedbackText) {
-        Optional<FeedbackPattern> pattern = FeedbackPattern.findBestMatch(feedbackText);
-
-        if (pattern.isEmpty())
-            return FeedbackAnalysisBuilder.builder()
-                    .withSolution("Потребує додаткового аналізу")
-                    .build();
-
-        FeedbackPattern p = pattern.get();
-
-        return FeedbackAnalysisBuilder.builder()
-                .withSentiment(determineSentiment(p.getCriticalityLevel()))
-                .withCriticality(p.getCriticalityLevel())
-                .withSolution(p.getDefaultSolution())
-                .withCategory(p.getCategory().getCode())
-                .withConfidence(calculateConfidence(p))
-                .build();
+        return FeedbackPattern.findBestMatch(feedbackText)
+                .map(p -> FeedbackAnalysisBuilder.builder()
+                        .withSentiment(determineSentiment(p.getCriticalityLevel()))
+                        .withCriticality(p.getCriticalityLevel())
+                        .withSolution(p.getDefaultSolution())
+                        .withCategory(p.getCategory().getCode())
+                        .withConfidence(calculateConfidence(p))
+                        .build())
+                .orElseGet(() -> FeedbackAnalysisBuilder.builder()
+                        .withSolution("Потребує додаткового аналізу")
+                        .build());
     }
 
     private SentimentType determineSentiment(CriticalityLevel level) {

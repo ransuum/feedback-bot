@@ -62,7 +62,7 @@ public class TrelloServiceImpl implements TrelloService {
 
             final var card = new Card();
             card.setName(cardName);
-            card.setDesc(cardDescription);;
+            card.setDesc(cardDescription);
 
             final var created = trello.createCard(listId, card);
             return created.getId();
