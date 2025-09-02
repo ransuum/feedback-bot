@@ -4,7 +4,7 @@ import jakarta.annotation.Nullable;
 import org.task.feedbackbot.models.enums.Position;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
-public interface PostitionService {
+public interface PositionService {
     @Nullable
     Position findPositionByText(String text);
 

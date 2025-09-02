@@ -3,7 +3,7 @@ package org.task.feedbackbot.service.impl;
 import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Service;
 import org.task.feedbackbot.models.enums.Position;
-import org.task.feedbackbot.service.PostitionService;
+import org.task.feedbackbot.service.PositionService;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class PositionServiceImpl implements PostitionService {
+public class PositionServiceImpl implements PositionService {
 
     @Nullable
     @Override
