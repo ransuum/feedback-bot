@@ -20,12 +20,11 @@ public class UserRegistrationHandler {
     }
 
     public void handleStartCommand(Long chatId, User user) {
-        if (user.getState() == UserState.REGISTERED) {
+        if (user.getState() == UserState.REGISTERED)
             messageSender.sendMessage(chatId,
                     "Вітаю знову! Ви вже зареєстровані та можете залишати відгуки.", null);
-        } else {
-            handleNewUser(chatId);
-        }
+        else handleNewUser(chatId);
+
     }
 
     private void handleNewUser(Long chatId) {

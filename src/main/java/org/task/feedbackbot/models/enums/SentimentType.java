@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum SentimentType {
     POSITIVE("Позитивний"),
     NEUTRAL("Нейтральний"),
-    NEGATIVE("Негативний");
+    NEGATIVE("Негативний"),
+    OTHER("Інше");
 
     private final String displayName;
 

@@ -22,6 +22,8 @@ public class FallbackAnalysisFactory {
                         .build())
                 .orElseGet(() -> FeedbackAnalysisBuilder.builder()
                         .withSolution("Потребує додаткового аналізу")
+                        .withCriticality(CriticalityLevel.CRITICAL)
+                        .withSentiment(SentimentType.OTHER)
                         .build());
     }
 

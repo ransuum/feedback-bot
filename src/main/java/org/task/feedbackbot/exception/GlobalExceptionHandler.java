@@ -20,6 +20,12 @@ public class GlobalExceptionHandler {
                 .body("Feedback analyzer error: " + ex.getMessage());
     }
 
+    @ExceptionHandler(ExporterException.class)
+    public ResponseEntity<String> handleExporterException(ExporterException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Exporter error: " + ex.getMessage());
+    }
+
     @ExceptionHandler(GoogleDocsException.class)
     public ResponseEntity<String> handleGoogleDocs(GoogleDocsException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

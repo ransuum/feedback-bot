@@ -28,7 +28,7 @@ public class PositionServiceImpl implements PositionService {
     public ReplyKeyboardMarkup createPositionKeyboard() {
         final List<KeyboardRow> keyboard = Arrays.stream(Position.values())
                 .map(pos -> {
-                    KeyboardRow row = new KeyboardRow();
+                    var row = new KeyboardRow();
                     row.add(new KeyboardButton(pos.getDisplayName()));
                     return row;
                 })

@@ -1,6 +1,7 @@
 package org.task.feedbackbot.utils.analyzer.feedback.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -18,15 +19,15 @@ import java.util.List;
 @Slf4j
 public class OpenAiFeedbackAnalyzer extends BaseFeedbackAnalyzer {
 
-    private final OpenAiChatModel openAiChatModel;
     private final FallbackAnalysisFactory factory;
+    private final ChatClient chatClient;
 
-    public OpenAiFeedbackAnalyzer(OpenAiChatModel openAiChatModel,
-                                  @Qualifier("openAiResponseParser") ResponseParser responseParser,
-                                  @Qualifier("openAiPromptBuilder") PromptBuilder promptBuilder, FallbackAnalysisFactory factory) {
+    public OpenAiFeedbackAnalyzer(@Qualifier("openAiResponseParser") ResponseParser responseParser,
+                                  @Qualifier("openAiPromptBuilder") PromptBuilder promptBuilder, FallbackAnalysisFactory factory,
+                                  ChatClient.Builder chatClient) {
         super(responseParser, promptBuilder);
-        this.openAiChatModel = openAiChatModel;
         this.factory = factory;
+        this.chatClient = chatClient.build();
     }
 
     @Override
@@ -35,14 +36,14 @@ public class OpenAiFeedbackAnalyzer extends BaseFeedbackAnalyzer {
             final String prompt = promptBuilder.buildPrompt(feedbackText);
             log.debug("Generated prompt: {}", prompt);
 
-            final var response = openAiChatModel.call(
-                    new Prompt(List.of(new UserMessage(prompt)))
-            );
+            final var response = chatClient.prompt()
+                    .user(prompt)
+                    .call()
+                    .content();
 
-            final var aiResponse = response.getResult().getOutput().getText();
-            log.info("OpenAI response: {}", aiResponse);
+            log.info("OpenAI response: {}", response);
 
-            return responseParser.parse().build(aiResponse);
+            return responseParser.parse().build(response);
         } catch (Exception e) {
             throw new FeedbackJsonProcessingException("Cannot process json response from ai due to: " + e.getMessage());
         }

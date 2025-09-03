@@ -18,27 +18,28 @@ spring:
 
   ai:
     openai:
-      api-key: {OPEN_API_KEY}
+      api-key: ${API_KEY}
       chat:
         options:
           model: gpt-4o-mini
+
   threads:
     virtual:
       enabled: true
 
 telegram:
   bot:
-    token: {TELEGRAM_TOKEN}
-    username: {TELEGRAM_USERNAME}
+    token: ${TELEGRAM_TOKEN}
+    username: ${TELEGRAM_USERNAME}
 
 google:
   docs:
-    document-id: {DOCUMENT_ID}
-    credentials-path: {DOCS_PATH}
+    document-id: ${DOCUMENT_ID}
+    credentials-path: ${DOCS_PATH}
 
 trello:
   api:
-    key: {TRELLO_API_KEY}
-    token: {TOKEN_API_KEY}
-    board-id: {BOARD_ID}
-    list-id: {LIST_ID}
+    key: ${TRELLO_API_KEY}
+    token: ${TOKEN_API_KEY}
+    board-id: ${BOARD_ID}
+    list-id: ${LIST_ID}

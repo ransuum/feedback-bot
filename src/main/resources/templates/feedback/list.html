@@ -109,6 +109,57 @@
         </div>
     </div>
 
+    <div class="d-flex justify-content-end mb-3">
+        <a th:href="@{/feedbacks/export(format='CSV', all=false,
+            branch=${criteria.branch},
+            position=${criteria.position},
+            sentiment=${criteria.sentiment},
+            criticalityLevel=${criteria.criticalityLevel},
+            from=${criteria.start},
+            to=${criteria.end},
+            page=${page.number},
+            size=${page.size})}"
+           class="btn btn-sm btn-outline-primary me-2">
+            ⬇️ Завантажити CSV (ця сторінка)
+        </a>
+
+        <a th:href="@{/feedbacks/export(format='EXCEL', all=false,
+            branch=${criteria.branch},
+            position=${criteria.position},
+            sentiment=${criteria.sentiment},
+            criticalityLevel=${criteria.criticalityLevel},
+            from=${criteria.start},
+            to=${criteria.end},
+            page=${page.number},
+            size=${page.size})}"
+           class="btn btn-sm btn-outline-success me-2">
+            ⬇️ Завантажити Excel (ця сторінка)
+        </a>
+
+        <a th:href="@{/feedbacks/export(format='CSV', all=true,
+            branch=${criteria.branch},
+            position=${criteria.position},
+            sentiment=${criteria.sentiment},
+            criticalityLevel=${criteria.criticalityLevel},
+            from=${criteria.start},
+            to=${criteria.end})}"
+           class="btn btn-sm btn-outline-secondary">
+            ⬇️ Усі результати (CSV)
+        </a>
+
+        <a th:href="@{/feedbacks/export(format='EXCEL', all=true,
+            branch=${criteria.branch},
+            position=${criteria.position},
+            sentiment=${criteria.sentiment},
+            criticalityLevel=${criteria.criticalityLevel},
+            from=${criteria.start},
+            to=${criteria.end})}"
+           class="btn btn-sm btn-outline-secondary">
+            ⬇️ Усі результати (EXCEL)
+        </a>
+    </div>
+
+
     <!-- Results Section -->
     <div class="card">
         <div class="card-header">

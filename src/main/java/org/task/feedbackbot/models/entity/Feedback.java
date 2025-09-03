@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class Feedback {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,7 +40,9 @@ public class Feedback {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private String trelloCardId;
-    private boolean syncedToGoogleDocs = false;
+
+    @Builder.Default
+    private Boolean syncedToGoogleDocs = false;
 
     public boolean isCritical() {
         return criticalityLevel >= 4;
