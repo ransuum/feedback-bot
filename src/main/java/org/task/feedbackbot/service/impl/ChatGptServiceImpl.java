@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.task.feedbackbot.exception.FeedbackAnalyzerException;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
 import org.task.feedbackbot.service.ChatGptService;
-import org.task.feedbackbot.utils.analyzer.feedback.FeedbackAnalyzer;
+import org.task.feedbackbot.openai.analyzer.feedback.FeedbackAnalyzer;
 
 import java.util.Comparator;
 import java.util.List;

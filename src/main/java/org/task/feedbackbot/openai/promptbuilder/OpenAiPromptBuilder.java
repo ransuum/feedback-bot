@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.promptbuilder;
+package org.task.feedbackbot.openai.promptbuilder;
 
 import org.springframework.stereotype.Component;
 

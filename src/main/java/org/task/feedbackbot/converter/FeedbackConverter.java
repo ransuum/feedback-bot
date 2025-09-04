@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.exporter;
+package org.task.feedbackbot.converter;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public sealed interface FeedbackExporter permits CsvFeedbackExporter, ExcelFeedbackExporter {
+public sealed interface FeedbackConverter permits CsvFeedbackConverter, ExcelFeedbackConverter {
     void export(List<FeedbackAnalysisDto> feedbacks, OutputStream os, HttpServletResponse response);
 
     ExportFormat getFormat();

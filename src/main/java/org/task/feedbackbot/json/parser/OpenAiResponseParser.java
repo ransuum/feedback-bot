@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.parser;
+package org.task.feedbackbot.json.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

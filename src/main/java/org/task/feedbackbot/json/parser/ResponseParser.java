@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.parser;
+package org.task.feedbackbot.json.parser;
 
 public sealed interface ResponseParser permits OpenAiResponseParser {
     ParserBuilder parse();

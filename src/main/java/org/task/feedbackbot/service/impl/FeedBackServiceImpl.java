@@ -17,8 +17,8 @@ import org.task.feedbackbot.service.FeedBackService;
 import org.task.feedbackbot.service.GoogleDocsService;
 import org.task.feedbackbot.service.TrelloService;
 import org.task.feedbackbot.specification.request.FeedbackCriteriaRequest;
-import org.task.feedbackbot.utils.analyzer.feedback.data.FallbackAnalysisFactory;
-import org.task.feedbackbot.utils.exporter.FeedbackExporter;
+import org.task.feedbackbot.openai.analyzer.feedback.data.FallbackAnalysisFactory;
+import org.task.feedbackbot.converter.FeedbackConverter;
 
 import java.io.OutputStream;
 import java.util.List;
@@ -37,7 +37,7 @@ public class FeedBackServiceImpl implements FeedBackService {
     private final ChatGptServiceImpl openAiService;
     private final FallbackAnalysisFactory fallbackAnalysisFactory;
     private final FeedbackMapper feedbackMapper;
-    private final Map<ExportFormat, FeedbackExporter> formatFeedbackExporterMap;
+    private final Map<ExportFormat, FeedbackConverter> formatFeedbackExporterMap;
 
     public FeedBackServiceImpl(FeedbackRepository feedbackRepository,
                                GoogleDocsService googleDocsService,
@@ -45,15 +45,15 @@ public class FeedBackServiceImpl implements FeedBackService {
                                ChatGptServiceImpl openAiService,
                                FallbackAnalysisFactory fallbackAnalysisFactory,
                                FeedbackMapper feedbackMapper,
-                               List<FeedbackExporter> feedbackExporters) {
+                               List<FeedbackConverter> feedbackConverters) {
         this.feedbackRepository = feedbackRepository;
         this.googleDocsService = googleDocsService;
         this.trelloService = trelloService;
         this.openAiService = openAiService;
         this.fallbackAnalysisFactory = fallbackAnalysisFactory;
         this.feedbackMapper = feedbackMapper;
-        this.formatFeedbackExporterMap = feedbackExporters.stream()
-                .collect(Collectors.toMap(FeedbackExporter::getFormat, o -> o));
+        this.formatFeedbackExporterMap = feedbackConverters.stream()
+                .collect(Collectors.toMap(FeedbackConverter::getFormat, o -> o));
     }
 
     @Override

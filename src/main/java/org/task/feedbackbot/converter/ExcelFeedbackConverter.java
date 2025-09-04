@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.exporter;
+package org.task.feedbackbot.converter;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.*;
@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.util.List;
 
 @Component
-public final class ExcelFeedbackExporter implements FeedbackExporter {
+public final class ExcelFeedbackConverter implements FeedbackConverter {
 
     @Override
     public void export(List<FeedbackAnalysisDto> feedbacks, OutputStream os, HttpServletResponse response) {

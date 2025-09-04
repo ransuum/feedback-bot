@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.analyzer.feedback.data;
+package org.task.feedbackbot.openai.analyzer.feedback.data;
 
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
 import org.task.feedbackbot.models.enums.CriticalityLevel;

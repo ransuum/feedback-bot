@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.analyzer.feedback;
+package org.task.feedbackbot.openai.analyzer.feedback;
 
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
 

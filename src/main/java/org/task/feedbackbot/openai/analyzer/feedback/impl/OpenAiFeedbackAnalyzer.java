@@ -1,19 +1,14 @@
-package org.task.feedbackbot.utils.analyzer.feedback.impl;
+package org.task.feedbackbot.openai.analyzer.feedback.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.task.feedbackbot.exception.FeedbackJsonProcessingException;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
-import org.task.feedbackbot.utils.analyzer.feedback.data.FallbackAnalysisFactory;
-import org.task.feedbackbot.utils.parser.ResponseParser;
-import org.task.feedbackbot.utils.promptbuilder.PromptBuilder;
-
-import java.util.List;
+import org.task.feedbackbot.openai.analyzer.feedback.data.FallbackAnalysisFactory;
+import org.task.feedbackbot.json.parser.ResponseParser;
+import org.task.feedbackbot.openai.promptbuilder.PromptBuilder;
 
 @Component
 @Slf4j

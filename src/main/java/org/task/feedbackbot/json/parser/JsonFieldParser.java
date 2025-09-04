@@ -1,4 +1,4 @@
-package org.task.feedbackbot.utils.parser;
+package org.task.feedbackbot.json.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.task.feedbackbot.models.enums.CriticalityLevel;
