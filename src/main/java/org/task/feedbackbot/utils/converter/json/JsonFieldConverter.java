@@ -1,11 +1,11 @@
-package org.task.feedbackbot.json.parser;
+package org.task.feedbackbot.utils.converter.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.task.feedbackbot.models.enums.CriticalityLevel;
 import org.task.feedbackbot.models.enums.FeedbackCategory;
 import org.task.feedbackbot.models.enums.SentimentType;
 
-public interface JsonFieldParser {
+public interface JsonFieldConverter {
     default CriticalityLevel parseCriticality(JsonNode jsonNode) {
         final int level = jsonNode.path("criticalityLevel").asInt(2);
         return CriticalityLevel.fromValue(level);

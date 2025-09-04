@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
 import org.task.feedbackbot.openai.analyzer.feedback.FeedbackAnalyzer;
-import org.task.feedbackbot.json.parser.ResponseParser;
+import org.task.feedbackbot.utils.converter.airesponse.ResponseParser;
 import org.task.feedbackbot.openai.promptbuilder.PromptBuilder;
 
 @Slf4j

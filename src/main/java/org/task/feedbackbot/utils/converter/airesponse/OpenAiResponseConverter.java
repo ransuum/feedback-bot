@@ -1,17 +1,18 @@
-package org.task.feedbackbot.json.parser;
+package org.task.feedbackbot.utils.converter.airesponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
+import org.task.feedbackbot.utils.converter.json.JsonFieldConverter;
 
 @Component("openAiResponseParser")
 @Slf4j
-public final class OpenAiResponseParser implements ResponseParser, JsonFieldParser {
+public final class OpenAiResponseConverter implements ResponseParser, JsonFieldConverter {
 
     private final ObjectMapper objectMapper;
 
-    public OpenAiResponseParser(ObjectMapper objectMapper) {
+    public OpenAiResponseConverter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

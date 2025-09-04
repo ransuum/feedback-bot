@@ -10,9 +10,9 @@ import org.task.feedbackbot.utils.messages.MessageSender;
 
 @Component
 @Slf4j
-public class BranchSelectionHandler extends BaseStateHandler {
+public class BranchSelectionSelection extends BaseStateSelection {
 
-    public BranchSelectionHandler(UserService userService, MessageSender messageSender) {
+    public BranchSelectionSelection(UserService userService, MessageSender messageSender) {
         super(userService, messageSender);
     }
 

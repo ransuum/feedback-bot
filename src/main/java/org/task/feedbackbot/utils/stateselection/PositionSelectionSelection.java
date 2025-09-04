@@ -12,11 +12,11 @@ import org.task.feedbackbot.utils.messages.MessageSender;
 
 @Component
 @Slf4j
-public class PositionSelectionHandler extends BaseStateHandler {
+public class PositionSelectionSelection extends BaseStateSelection {
 
     private final PositionService positionService;
 
-    public PositionSelectionHandler(
+    public PositionSelectionSelection(
             UserService userService,
             MessageSender messageSender,
             PositionService positionService) {

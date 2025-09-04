@@ -12,11 +12,11 @@ import org.task.feedbackbot.utils.messages.MessageSender;
 
 @Component
 @Slf4j
-public class FeedbackHandler extends BaseStateHandler {
+public class FeedbackSelection extends BaseStateSelection {
 
     private final FeedBackService feedBackService;
 
-    public FeedbackHandler(
+    public FeedbackSelection(
             UserService userService,
             MessageSender messageSender,
             FeedBackService feedBackService) {

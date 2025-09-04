@@ -11,7 +11,7 @@ import org.task.feedbackbot.models.entity.User;
 import org.task.feedbackbot.models.enums.UserState;
 import org.task.feedbackbot.models.events.SendMessageEvent;
 import org.task.feedbackbot.service.*;
-import org.task.feedbackbot.utils.stateselection.StateHandler;
+import org.task.feedbackbot.utils.stateselection.StateSelection;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -30,17 +30,17 @@ public class TelegramBotService extends TelegramLongPollingBot {
     private String username;
 
     private final UserService userService;
-    private final Map<UserState, StateHandler> stateHandlers;
+    private final Map<UserState, StateSelection> stateHandlers;
     private final UserRegistrationHandler registrationHandler;
 
     public TelegramBotService(
             UserService userService,
-            List<StateHandler> stateHandlers,
+            List<StateSelection> stateSelections,
             UserRegistrationHandler registrationHandler) {
         this.userService = userService;
         this.registrationHandler = registrationHandler;
-        this.stateHandlers = stateHandlers.stream()
-                .collect(Collectors.toMap(StateHandler::getHandledState, handler -> handler));
+        this.stateHandlers = stateSelections.stream()
+                .collect(Collectors.toMap(StateSelection::getHandledState, handler -> handler));
     }
 
     @PostConstruct

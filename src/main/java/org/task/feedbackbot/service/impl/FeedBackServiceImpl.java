@@ -18,7 +18,7 @@ import org.task.feedbackbot.service.GoogleDocsService;
 import org.task.feedbackbot.service.TrelloService;
 import org.task.feedbackbot.specification.request.FeedbackCriteriaRequest;
 import org.task.feedbackbot.openai.analyzer.feedback.data.FallbackAnalysisFactory;
-import org.task.feedbackbot.converter.FeedbackConverter;
+import org.task.feedbackbot.utils.converter.files.FeedbackFileConverter;
 
 import java.io.OutputStream;
 import java.util.List;
@@ -37,7 +37,7 @@ public class FeedBackServiceImpl implements FeedBackService {
     private final ChatGptServiceImpl openAiService;
     private final FallbackAnalysisFactory fallbackAnalysisFactory;
     private final FeedbackMapper feedbackMapper;
-    private final Map<ExportFormat, FeedbackConverter> formatFeedbackExporterMap;
+    private final Map<ExportFormat, FeedbackFileConverter> formatFeedbackExporterMap;
 
     public FeedBackServiceImpl(FeedbackRepository feedbackRepository,
                                GoogleDocsService googleDocsService,
@@ -45,15 +45,15 @@ public class FeedBackServiceImpl implements FeedBackService {
                                ChatGptServiceImpl openAiService,
                                FallbackAnalysisFactory fallbackAnalysisFactory,
                                FeedbackMapper feedbackMapper,
-                               List<FeedbackConverter> feedbackConverters) {
+                               List<FeedbackFileConverter> feedbackFileConverters) {
         this.feedbackRepository = feedbackRepository;
         this.googleDocsService = googleDocsService;
         this.trelloService = trelloService;
         this.openAiService = openAiService;
         this.fallbackAnalysisFactory = fallbackAnalysisFactory;
         this.feedbackMapper = feedbackMapper;
-        this.formatFeedbackExporterMap = feedbackConverters.stream()
-                .collect(Collectors.toMap(FeedbackConverter::getFormat, o -> o));
+        this.formatFeedbackExporterMap = feedbackFileConverters.stream()
+                .collect(Collectors.toMap(FeedbackFileConverter::getFormat, o -> o));
     }
 
     @Override

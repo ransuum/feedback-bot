@@ -8,8 +8,11 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.task.feedbackbot.exception.NotFoundException;
 import org.task.feedbackbot.models.entity.Feedback;
 import org.task.feedbackbot.service.TrelloService;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -70,5 +73,14 @@ public class TrelloServiceImpl implements TrelloService {
             log.error("Error creating Trello card for feedback {}", feedback.getId(), e);
             return null;
         }
+    }
+
+    @Override
+    public void deleteCard(String cardId) {
+        Optional.ofNullable(trello.getCard(cardId))
+                .ifPresentOrElse(Card::delete,
+                        () -> {
+                            throw new NotFoundException("Card not found");
+                        });
     }
 }

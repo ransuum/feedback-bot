@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.task.feedbackbot.exception.FeedbackJsonProcessingException;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
 import org.task.feedbackbot.openai.analyzer.feedback.data.FallbackAnalysisFactory;
-import org.task.feedbackbot.json.parser.ResponseParser;
+import org.task.feedbackbot.utils.converter.airesponse.ResponseParser;
 import org.task.feedbackbot.openai.promptbuilder.PromptBuilder;
 
 @Component

@@ -1,4 +1,4 @@
-package org.task.feedbackbot.converter;
+package org.task.feedbackbot.utils.converter.files;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.csv.CSVFormat;
@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
-public final class CsvFeedbackConverter implements FeedbackConverter {
+public final class CsvFeedbackFileConverter implements FeedbackFileConverter {
 
     @Override
     public void export(List<FeedbackAnalysisDto> feedbacks, OutputStream os, HttpServletResponse response) {

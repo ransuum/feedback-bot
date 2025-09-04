@@ -5,12 +5,12 @@ import org.task.feedbackbot.service.UserService;
 import org.task.feedbackbot.utils.messages.MessageSender;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 
-public abstract class BaseStateHandler implements StateHandler {
+public abstract class BaseStateSelection implements StateSelection {
 
     protected final UserService userService;
     protected final MessageSender messageSender;
 
-    protected BaseStateHandler(UserService userService, MessageSender messageSender) {
+    protected BaseStateSelection(UserService userService, MessageSender messageSender) {
         this.userService = userService;
         this.messageSender = messageSender;
     }

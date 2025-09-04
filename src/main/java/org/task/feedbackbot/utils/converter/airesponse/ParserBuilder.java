@@ -1,4 +1,4 @@
-package org.task.feedbackbot.json.parser;
+package org.task.feedbackbot.utils.converter.airesponse;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.task.feedbackbot.models.dto.FeedbackAnalysisDto;
