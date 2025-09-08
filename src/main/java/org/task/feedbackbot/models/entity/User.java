@@ -27,6 +27,7 @@ public class User {
     private String branch;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private UserState state = UserState.NEW;
 
     @Builder.Default

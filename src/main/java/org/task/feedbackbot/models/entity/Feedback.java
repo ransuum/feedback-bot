@@ -41,8 +41,7 @@ public class Feedback {
 
     private String trelloCardId;
 
-    @Builder.Default
-    private Boolean syncedToGoogleDocs = false;
+    private Boolean syncedToGoogleDocs;
 
     public boolean isCritical() {
         return criticalityLevel >= 4;

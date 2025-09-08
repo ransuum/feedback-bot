@@ -74,17 +74,10 @@ public class FeedBackServiceImpl implements FeedBackService {
     @Async
     @Transactional
     public void processIntegrations(Feedback feedback) {
-        CompletableFuture.runAsync(() -> {
-            try {
-                googleDocsService.addFeedbackToDoc(feedback);
+        googleDocsService.addFeedbackToDoc(feedback);
+        feedback.setSyncedToGoogleDocs(true);
 
-                feedback.setSyncedToGoogleDocs(true);
-
-                log.debug("Successfully synced feedback {} to Google Docs", feedback.getId());
-            } catch (Exception e) {
-                log.error("Error syncing feedback {} to Google Docs", feedback.getId(), e);
-            }
-        });
+        log.debug("Successfully synced feedback {} to Google Docs", feedback.getId());
 
         if (feedback.isCritical())
             CompletableFuture.runAsync(() -> {
